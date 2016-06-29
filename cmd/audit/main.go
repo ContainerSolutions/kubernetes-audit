@@ -1,9 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"net/http"
 	"os"
-	"time"
 )
 
 func main() {
@@ -15,11 +16,21 @@ func main() {
 	}
 	defer f.Close()
 
-	fmt.Println("WELCOME TO THE KUBENETES AUDITOR! IT DOESN'T WORK YET I'M AFRAID")
-
-	for {
-		fmt.Println("tick")
-		time.Sleep(time.Second)
-
+	resp, err := http.Get("http://localhost:8080/api/v1/events")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to get events from API server: %v\n", err)
+		os.Exit(1)
 	}
+
+	defer resp.Body.Close()
+
+	reader := bufio.NewReader(resp.Body)
+	for {
+		line, err := reader.ReadBytes('\n')
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error reading event: %v\n", err)
+		}
+		fmt.Fprintln(os.Stdout, "%v", line)
+	}
+
 }
