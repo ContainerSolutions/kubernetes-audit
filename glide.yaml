@@ -1,2 +1,2 @@
-package: github.com/kismatic/kubernetes-audit
+package: github.com/ContainerSolutions/kubernetes-audit
 import: []
