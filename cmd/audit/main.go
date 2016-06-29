@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"os"
+	"time"
 )
 
 func main() {
@@ -15,5 +15,11 @@ func main() {
 	}
 	defer f.Close()
 
-	io.Copy(f, os.Stdin)
+	fmt.Println("WELCOME TO THE KUBENETES AUDITOR! IT DOESN'T WORK YET I'M AFRAID")
+
+	for {
+		fmt.Println("tick")
+		time.Sleep(1)
+
+	}
 }
