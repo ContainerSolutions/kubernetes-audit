@@ -16,7 +16,7 @@ func main() {
 	}
 	defer f.Close()
 
-	resp, err := http.Get("http://localhost:8080/api/v1/events")
+	resp, err := http.Get("http://localhost:8080/api/v1/events?watch=true")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to get events from API server: %v\n", err)
 		os.Exit(1)
@@ -26,11 +26,13 @@ func main() {
 
 	reader := bufio.NewReader(resp.Body)
 	for {
-		line, err := reader.ReadBytes('\n')
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error reading event: %v\n", err)
+		line, err := reader.ReadString('\n')
+		if err != nil && err.Error() != "EOF" {
+			fmt.Fprintf(os.Stdout, "Error reading event: %v\n", err)
 		}
-		fmt.Fprintln(os.Stdout, "%v", line)
+		if len(line) > 0 {
+			fmt.Println(line)
+		}
 	}
 
 }
