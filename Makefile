@@ -6,7 +6,7 @@ GOARCH=$(shell go env GOARCH)
 REPOPATH = kismatic/kubernetes-audit
 
 build: vendor
-	go build -o bin/audit -ldflags "-X $(REPOPATH).Version=$(VERSION)" ./cmd/audit
+	go build -o bin/audit -ldflags "-X $(REPOPATH).Version=$(VERSION)" ./cmd
 
 test: bin/glide
 	go test $(shell ./bin/glide novendor)
