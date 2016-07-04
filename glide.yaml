@@ -1,2 +1,5 @@
 package: github.com/ContainerSolutions/kubernetes-audit
-import: []
+import:
+- package: k8s.io/kubernetes
+  subpackages:
+  - pkg/api
